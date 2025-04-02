@@ -8,7 +8,9 @@ import React, { useEffect } from "react";
 export const Route = createRootRoute({component: Layout});
 
 
-function Layout(){
+function Layout(){ 
+
+  /*************Setting the Title*********/
 
   //Getting the array of title from the index and then we will be changing the title
   const { matches } = useRouterState();
