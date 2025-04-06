@@ -4,7 +4,7 @@ import { Plus, TagIcon } from "lucide-react";
 import { useParams, useRouter } from "@tanstack/react-router";
 
 export const NoteEditPage = () => {
-  const { notes, tags, addNote, updateNote } = useNoteStore(); //Using this for getting the tags which user will put during creating notes
+  const { notes, tags, addNote, updateNote, addTag } = useNoteStore(); //Using this for getting the tags which user will put during creating notes
   const router = useRouter(); //Handling Routing with this
 
   //Getting the noteId from the url
@@ -36,63 +36,83 @@ export const NoteEditPage = () => {
     }
   }
 
-  function handleAddTag(e: React.FormEvent){
+  // setting the selected tags to the Notes
+  function handleAddTag(e: React.FormEvent) {
     e.preventDefault();
-    
 
+    if (newTagName) {
+      const tagId = addTag(newTagName.trim());
+      setNewTagName("");
+      setSelectedTagIds((prev) => [...prev, tagId]);
+    }
   }
 
   //Selected means on else off
   function toggleTag(tagId: string) {
-    setSelectedTagIds((prev) =>
-      prev.includes(tagId)
-        ? prev.filter((id) => id !== tagId) //Off
-        : [...prev, tagId]//on
+    setSelectedTagIds(
+      (prev) =>
+        prev.includes(tagId)
+          ? prev.filter((id) => id !== tagId) //Off
+          : [...prev, tagId] //on
     );
   }
 
   return (
-    <section>
+    <section className="flex flex-col gap-8">
       {/* header will be dynamic in the same page for edit or create new notes */}
-      <h1>Edit Note or Create New Notes</h1>
+      <h1 className="text-4xl font-bold">
+        {note ? "Edit Note" : "Create New Notes"}
+      </h1>
 
-      <form onSubmit={createNote}>
+      <form onSubmit={createNote} className="grid gap-8 lg:grid-cols-2">
         {/* Title and content */}
-
-        <div>
-          <div>
-            <label htmlFor="title">Title</label>
+        <div className="space-y-6">
+          <div className="flex flex-col gap-y-4">
+            <label htmlFor="title" className="text-xl font-bold">
+              Title
+            </label>
             <input
               type="text"
               id="title"
               onChange={(e) => setTitle(e.target.value)}
               value={title}
               required
+              className="bg-[#322F3D] px-4 py-2 outline-none text-lg rounded-sm focus:bg-[#87556F]"
             />
           </div>
-          <div>
-            <label htmlFor="content">Content</label>
+          <div className="flex flex-col gap-y-4">
+            <label htmlFor="content" className="text-xl font-bold">
+              Content
+            </label>
             <textarea
               id="content"
               onChange={(e) => setContent(e.target.value)}
               value={content}
               required
+              className="bg-[#322F3D] px-4 py-2 outline-none text-lg rounded-sm focus:bg-[#87556F]"
             />
           </div>
         </div>
 
         {/* Tags*/}
-        <div>
-          <label htmlFor="tags">Tags</label>
-
-          <div>
+        <div className="flex flex-col gap-y-4">
+          <label htmlFor="tags" className="text-xl font-bold">
+            Tags
+          </label>
+          <div className="flex flex-wrap gap-2">
             {
               //  From the mother object getting the values of the tags
-              Object.values(tags).map((tag) => (
+              Object.values(tags).map((tag, id) => (
                 <button
+                  key={id}
                   id={tag.id}
                   onClick={() => toggleTag(tag.id)}
                   type="button"
+                  className={`bg-[#322F3D] px-4 py-2 flex items-center self-start rounded-sm gap-2 ${
+                    selectedTagIds.includes(tag.id)
+                      ? "bg-[#87556F] "
+                      : "bg-[#322F3D]"
+                  }`}
                 >
                   <TagIcon className="size-3" />
                   {tag.name}
@@ -106,24 +126,33 @@ export const NoteEditPage = () => {
             type="text"
             onChange={(e) => setNewTagName(e.target.value)}
             value={newTagName}
+            className="bg-[#322F3D] px-4 py-2 outline-none text-lg rounded-sm focus:bg-[#87556F] w-56"
+            placeholder="Add new tag"
           />
 
           {/* Adding button for adding tags */}
-          <button type="button" onClick={handleAddTag}>
-            <Plus className="size-2" /> Add Tag
+          <button
+            type="button"
+            className="bg-[#322F3D] px-4 py-2  rounded-sm flex items-center gap-2 self-start"
+            onClick={handleAddTag}
+          >
+            <Plus className="size-3" /> Add Tag
           </button>
         </div>
 
         {/* Buttons */}
-        <div>
+        <div className="grid grid-cols-2 gap-4 *: rounded-sm *:px-4 *:py-2">
           {/*Going back to home page Which is two folder behind when clicked cancled */}
           <button
             type="button"
             onClick={() => router.navigate({ to: "../.." })}
+            className="bg-[#322F3D]"
           >
             Cancel
           </button>
-          <button type="submit">Save Changes or Create New Note</button>
+          <button type="submit" className="bg-[#87556F]">
+            {note ? "Save Changes " : " Create New Note"}
+          </button>
         </div>
       </form>
     </section>

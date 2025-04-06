@@ -16,7 +16,7 @@ export default function NoteVaultPage() {
       <div className="flex gap-5 flex-col 410px:flex-row 410px:justify-between 410px:items-center">
         <h1 className="text-4xl font-bold">Vault</h1>
         <Link
-          to="/note/new"
+          to="/notes/new"
           className="bg-[#87556F] px-2 py-4 rounded-sm flex items-center justify-center 410px: gap-x-2 410px:px-6"
         >
           <Plus className="size-5" />
@@ -41,15 +41,17 @@ export default function NoteVaultPage() {
               <p className="text-lg line-clamp-3">{note.content}</p>
 
               {/* Setting the tags dynamically */}
-              {note.tagIds.map((tagId) => (
-                <div
-                  key={tagId}
-                  className="self-start flex items-center gap-x-1 px-2 py-1 rounded-sm bg-[#87556F] group-hover:bg-[#4B5D67] transition-colors"
-                >
-                  <TagIcon className="size-3" />
-                  <span>{tags[tagId].name}</span>
-                </div>
-              ))}
+              <div className="flex gap-2 flex-wrap">
+                {note.tagIds.map((tagId) => (
+                  <div
+                    key={tagId}
+                    className="self-start flex items-center gap-x-1 px-2 py-1 rounded-sm bg-[#87556F] group-hover:bg-[#4B5D67] transition-colors"
+                  >
+                    <TagIcon className="size-3" />
+                    <span>{tags[tagId].name}</span>
+                  </div>
+                ))}
+              </div>
             </Link>
           </div>
         ))}

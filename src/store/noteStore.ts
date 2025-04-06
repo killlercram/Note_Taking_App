@@ -1,3 +1,4 @@
+// This is the store like Redux
 import { create } from "zustand";
 import { persist } from "zustand/middleware"; //puts data in local storage after getting from the user
 import { NoteStore } from "../types";
@@ -27,7 +28,7 @@ const useNoteStore = create<NoteStore>()(
             },
           },
         }));
-        return id;
+        return id;//Returning id as it holds the above information in the particular id.
       },
       
       // Updating the existing Notes with few updates and changes
@@ -44,6 +45,19 @@ const useNoteStore = create<NoteStore>()(
           },
         }));
       },
+
+      addTag: (name) => {
+        const id = crypto.randomUUID();//Generates Random Id's
+
+        set((state) => ({
+          tags: {
+            ...state.tags,
+            [id]: {id,name},
+          }
+        }));
+        return id;
+
+      }
     }),
     {name: "Notes-Vault"}
   )
