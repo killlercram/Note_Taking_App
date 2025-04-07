@@ -35,7 +35,7 @@ export default function NoteVaultPage() {
       hover:bg-[#322F3D] transition-colors rounded-sm group
       "
           >
-            <Link to={`/notes/${note.id}`} className="flex gap-4 flex-col">
+            <Link to={`/notes/${note.id}`} className="flex gap-4 flex-col justify-between h-full">
               <h2 className="font-bold text-xl">{note.title}</h2>
 
               <p className="text-lg line-clamp-3">{note.content}</p>
