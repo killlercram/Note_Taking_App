@@ -53,7 +53,7 @@ function handleDelete () {
         <div className="space-y-2 bg-[#322F3D] p-4 justify-self-start lg:justify-self-auto md:text-center">
           <p>
             Created At:{" "}
-            {new Date(note!.createAt).toLocaleString("en-US", {
+            {new Date(note!?.createAt).toLocaleString("en-US", {
               hour12: true,
               year: "numeric",
               month: "short",
@@ -65,7 +65,7 @@ function handleDelete () {
           </p>
           <p>
             Updated At:{" "}
-            {new Date(note!.updatedAt).toLocaleString("en-US", {
+            {new Date(note!?.updatedAt).toLocaleString("en-US", {
               hour12: true,
               year: "numeric",
               month: "short",

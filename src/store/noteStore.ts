@@ -71,6 +71,40 @@ const useNoteStore = create<NoteStore>()(
         }));
         return id;
       },
+
+      // Saving the updated tag value in the store
+      updateTag: (tagId, name) => {
+        set((state) => ({
+          tags: {
+            ...state.tags,
+            [tagId]: { ...state.tags[tagId], name },
+          },
+        }));
+      },
+
+      //Deleting selected tag from store
+      deleteTag: (tagId) => {
+        set((state) => {
+          const { [tagId]: _, ...remainingTags } = state.tags;
+
+          const updatedNotes = Object.entries(state.notes).reduce(
+            (acc, [noteId, note]) => ({
+              ...acc,
+              //Keeping all the remaining things as it is
+              [noteId]: {
+                ...note,
+                // Removing specific tag id only
+                tagIds: note.tagIds.filter((id) => id !== tagId),
+              },
+            }),
+            {}
+          );
+          return {
+            tags: remainingTags,
+            notes: updatedNotes,
+          };
+        });
+      },
     }),
     { name: "Notes-Vault" }
   )
