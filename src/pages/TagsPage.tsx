@@ -4,7 +4,7 @@ import { Edit2, Save, TagIcon, Trash2, X } from "lucide-react";
 
 export const TagsPage = () => {
   const [newTagName, setNewtagName] = useState("");
-  const { tags, addTag , updateTag, deleteTag} = useNoteStore();
+  const { tags, addTag, updateTag, deleteTag } = useNoteStore();
   const [editingTagId, setEditingTagId] = useState<string | null>(null);
   const [editingTagName, setEditingTagName] = useState("");
 
@@ -24,8 +24,8 @@ export const TagsPage = () => {
 
   //Saving the edited file in the store
   function handleUpdateTag(tagId: string) {
-    if(editingTagName){
-      updateTag(tagId, editingTagName.trim())
+    if (editingTagName) {
+      updateTag(tagId, editingTagName.trim());
     }
     // Going back to initial values after saving
     setEditingTagId(null);
@@ -34,12 +34,14 @@ export const TagsPage = () => {
 
   // Deleting the selected tag
   function handleDeleteTag(tagId: string) {
-    if(window.confirm("Are you sure you want to delete this tag? It will be removed from all notes.")) {
+    if (
+      window.confirm(
+        "Are you sure you want to delete this tag? It will be removed from all notes."
+      )
+    ) {
       deleteTag(tagId);
     }
-
   }
-  
 
   return (
     <section className="flex flex-col gap-8">
